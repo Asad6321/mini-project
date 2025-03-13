@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Punjabi Menu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/venders/styles.css">
+
+    <!-- 3D model viewer -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        /* Add this to your existing CSS */
+        .menu-carousel {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding: 20px 0;
+        }
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .card {
+            flex: 0 0 auto;
+            width: 300px;
+            margin-right: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            background: #fff;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            height: 400px;
+            /* Set a fixed height for the card */
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 200px;
+            /* Set a fixed height for the 3D model */
+            margin: 0 auto;
+            background: #f0f0f0;
+            /* Optional: Add a background color for better visibility */
+        }
+
+        .card h3 {
+            margin: 10px 0;
+        }
+
+        .card p {
+            margin: 10px 0;
+            flex-grow: 1;
+            /* Allow the description to take up remaining space */
+        }
+
+        .add-btn {
+            margin: 10px 0;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .carousel-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 10;
+        }
+
+        .carousel-button.prev {
+            left: 10px;
+        }
+
+        .carousel-button.next {
+            right: 10px;
+        }
+
+        .pagination-dots {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #ccc;
+            border-radius: 50%;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .dot.active {
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="cart-container">
+        <div class="cart-icon" onclick="toggleCart()">
+            🛒
+            <div class="cart-count" id="cartCount">0</div>
+        </div>
+    </div>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+        <p>Total: ₹<span id="cartTotal">0</span></p>
+        <button onclick="checkout()"
+            style="background: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Checkout</button>
+    </div>
+
+    <div class="indian-menu-container">
+        <div class="menu-container">
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div>
+                    <h1>Punjabi Flavors</h1>
+                    <p>
+                        Our Punjabi dishes are crafted with fresh, high-quality ingredients, rich spices, and
+                        traditional cooking techniques. From buttery naans to creamy curries and tandoori delights, each
+                        dish embodies the hearty and robust flavors of Punjab.
+                    </p>
+                </div>
+                <div class="hero-image">
+                    <img src="/assets/menu_images/pun2.jpg" alt="Main Dish">
+                </div>
+            </section>
+
+            <!-- Menu Cards Carousel -->
+            <section class="menu-carousel">
+                <button class="carousel-button prev" onclick="shiftDishes(-1)">&#10094;</button>
+                <div class="carousel-track">
+                    <!-- Butter Chicken -->
+                    <div class="card">
+                        <model-viewer src="../assets/menu_images/3d_glb/butter_chicken.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <h3>Butter Chicken</h3>
+                        <p>Tender chicken cooked in a creamy tomato-based gravy, flavored with aromatic spices and
+                            butter.
+                        </p>
+                        <button class="add-btn" data-modal="modal-butter-chicken">+</button>
+                    </div>
+
+                    <!-- Sarson ka Saag -->
+                    <div class="card">
+                        <model-viewer src="../assets/menu_images/3d_glb/sarsu.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <h3>Sarson ka Saag</h3>
+                        <p>A traditional Punjabi dish made with mustard greens, spinach, and spices, served with makki
+                            di
+                            roti.</p>
+                        <button class="add-btn" data-modal="modal-sarson-saag">+</button>
+                    </div>
+
+                    <!-- Chole Bhature -->
+                    <div class="card">
+                        <model-viewer src="../assets/menu_images/3d_glb/chole.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <h3>Chole Bhature</h3>
+                        <p>Spicy chickpea curry served with fluffy deep-fried bread, a classic Punjabi delicacy.</p>
+                        <button class="add-btn" data-modal="modal-chole-bhature">+</button>
+                    </div>
+
+                    <!-- Paneer Tikka -->
+                    <div class="card">
+                        <model-viewer src="../assets/menu_images/3d_glb/paneer_tikka.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <h3>Paneer Tikka</h3>
+                        <p>Marinated paneer cubes grilled to perfection, served with mint chutney.</p>
+                        <button class="add-btn" data-modal="modal-paneer-tikka">+</button>
+                    </div>
+
+                    <!-- Dal Makhani -->
+                    <div class="card">
+                        <model-viewer src="../assets/menu_images/3d_glb/dal_makhani.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <h3>Dal Makhani</h3>
+                        <p>Creamy black lentils cooked with butter and spices, a rich and hearty dish.</p>
+                        <button class="add-btn" data-modal="modal-dal-makhani">+</button>
+                    </div>
+
+                    <!-- Tandoori Chicken -->
+                    <div class="card">
+                        <model-viewer src="../assets/menu_images/3d_glb/tandoori_chicken.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <h3>Tandoori Chicken</h3>
+                        <p>Chicken marinated in yogurt and spices, cooked in a tandoor for a smoky flavor.</p>
+                        <button class="add-btn" data-modal="modal-tandoori-chicken">+</button>
+                    </div>
+                </div>
+                <button class="carousel-button next" onclick="shiftDishes(1)">&#10095;</button>
+            </section>
+
+            <!-- Pagination Dots -->
+            <div class="pagination-dots">
+                <span class="dot active" onclick="goToDish(0)"></span>
+                <span class="dot" onclick="goToDish(1)"></span>
+                <span class="dot" onclick="goToDish(2)"></span>
+                <span class="dot" onclick="goToDish(3)"></span>
+                <span class="dot" onclick="goToDish(4)"></span>
+                <span class="dot" onclick="goToDish(5)"></span>
+            </div>
+
+            <!-- Special Dish Section -->
+            <section class="special-dish">
+                <div class="special-image">
+                    <model-viewer src="../assets/menu_images/3d_glb/punjabi_dish.glb" alt="3D Model" auto-rotate
+                        camera-controls ar>
+                    </model-viewer>
+                </div>
+                <div class="special-text">
+                    <h2>Our Punjabi Secret<h2>
+                            <p>
+                                At our restaurant, we craft authentic Punjabi dishes using the finest ingredients, rich
+                                spices, and traditional cooking techniques. From creamy curries to tandoori delights,
+                                every dish is made with passion to bring you the true taste of Punjab.
+                            </p>
+                </div>
+            </section>
+
+            <!-- Modals for each dish -->
+            <!-- Butter Chicken Modal -->
+            <div class="modal" id="modal-butter-chicken">
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h1 class="modal-title">You Made a Delicious Choice!</h1>
+                    <div class="modal-dish">
+                        <model-viewer src="../assets/menu_images/3d_glb/butter_chicken.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <div class="dish-details">
+                            <h3>Butter Chicken</h3>
+                            <p class="dish-description"> Tender chicken cooked in a creamy tomato-based gravy, flavored
+                                with aromatic spices and butter.</p>
+                            <div class="dish-info">
+                                <p><strong>Ingredients:</strong> Chicken, Tomatoes, Cream, Butter, Spices
+                                </p>
+                                <p><strong>Prep Time:</strong> 40 mins</p>
+                                <p><strong> Serves:</strong> 2-3 people</p>
+                                <p class="price"><strong>Price</strong> 250</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="order-btn">Place Order</button>
+                        <button class="customize-btn">Customize Your Dish</button>
+                    </div>
+                    <div class="customize-section" id="customize-butter-chicken">
+                        <h2>Customize Your Delight</h2>
+                        <div class="customize-options">
+                            <div class="option">
+                                <label>Spice Level:</label>
+                                <select>
+                                    <option>Mild</option>
+                                    <option>Medium</option>
+                                    <option>Spicy</option>
+                                    <option>Extra Spicy</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <label>Add Extra:</label>
+                                <input type="checkbox" id="extraChicken"> Extra Chicken
+                                <input type="checkbox" id="extraButter"> Extra Butter
+                                <input type="checkbox" id="extraNaan"> Extra Naan
+                            </div>
+                            <div class="option">
+                                <label>Remove:</label>
+                                <input type="checkbox" id="noCream"> No Cream
+                                <input type="checkbox" id="noButter"> No Butter
+                            </div>
+                            <div class="option">
+                                <label>Special Notes:</label>
+                                <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                            </div>
+                        </div>
+                        <button class="save-customization">Save & Order</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Butter Chicken Modal Ends -->
+
+            <!-- Sarson ka Saag Modal -->
+            <div class="modal" id="modal-sarson-saag">
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h1 class="modal-title">You Made a Delicious Choice!</h1>
+                    <div class="modal-dish">
+                        <model-viewer src="../assets/menu_images/3d_glb/sarsu.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <div class="dish-details">
+                            <h3>Sarson ka Saag</h3>
+                            <p class="dish-description">A traditional Punjabi dish made with mustard greens, spinach,
+                                and spices, served with makki di roti.</p>
+                            <div class="dish-info">
+                                <p><strong>Ingredients:</strong> Mustard Greens, Spinach, Spices, Makki di Roti</p>
+                                <p><strong>Prep Time:</strong> 45 mins</p>
+                                <p><strong>Serves:</strong> 2-3 people</p>
+                                <p class="price"><strong>Price</strong> 200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="order-btn">Place Order</button>
+                        <button class="customize-btn">Customize Your Dish</button>
+                    </div>
+                    <div class="customize-section" id="customize-sarson-saag">
+                        <h2>Customize Your Delight</h2>
+                        <div class="customize-options">
+                            <div class="option">
+                                <label>Spice Level:</label>
+                                <select>
+                                    <option>Mild</option>
+                                    <option>Medium</option>
+                                    <option>Spicy</option>
+                                    <option>Extra Spicy</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <label>Add Extra:</label>
+                                <input type="checkbox" id="extraMakkiRoti"> Extra Makki di Roti
+                                <input type="checkbox" id="extraButter"> Extra Butter
+                            </div>
+                            <div class="option">
+                                <label>Remove:</label>
+                                <input type="checkbox" id="noSpinach"> No Spinach
+                                <input type="checkbox" id="noButter"> No Butter
+                            </div>
+                            <div class="option">
+                                <label>Special Notes:</label>
+                                <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                            </div>
+                        </div>
+                        <button class="save-customization">Save & Order</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Sarson ka Saag Modal Ends -->
+
+            <!-- Chole Bhature Modal -->
+            <div class="modal" id="modal-chole-bhature">
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h1 class="modal-title">You Made a Delicious Choice!</h1>
+                    <div class="modal-dish">
+                        <model-viewer src="../assets/menu_images/3d_glb/chole.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                        </model-viewer>
+                        <div class="dish-details">
+                            <h3>Chole Bhature</h3>
+                            <p class="dish-description">Spicy chickpea curry served with fluffy deep-fried bread, a
+                                classic Punjabi delicacy.</p>
+                            <div class="dish-info">
+                                <p><strong>Ingredients:</strong> Chickpeas, Flour, Spices, Yogurt</p>
+                                <p><strong>Prep Time:</strong> 50 mins</p>
+                                <p><strong>Serves:</strong> 2-3 people</p>
+                                <p class="price"><strong>Price</strong> 180</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="order-btn">Place Order</button>
+                        <button class="customize-btn">Customize Your Dish</button>
+                    </div>
+                    <div class="customize-section" id="customize-chole-bhature">
+                        <h2>Customize Your Delight</h2>
+                        <div class="customize-options">
+                            <div class="option">
+                                <label>Spice Level:</label>
+                                <select>
+                                    <option>Mild</option>
+                                    <option>Medium</option>
+                                    <option>Spicy</option>
+                                    <option>Extra Spicy</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <label>Add Extra:</label>
+                                <input type="checkbox" id="extraBhature"> Extra Bhature
+                                <input type="checkbox" id="extraChole"> Extra Chole
+                            </div>
+                            <div class="option">
+                                <label>Remove:</label>
+                                <input type="checkbox" id="noOnion"> No Onion
+                                <input type="checkbox" id="noGarlic"> No Garlic
+                            </div>
+                            <div class="option">
+                                <label>Special Notes:</label>
+                                <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                            </div>
+                        </div>
+                        <button class="save-customization">Save & Order</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Chole Bhature Modal Ends -->
+
+            <!-- Paneer Tikka Modal -->
+            <div class="modal" id="modal-paneer-tikka">
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h1 class="modal-title">You Made a Delicious Choice!</h1>
+                    <div class="modal-dish">
+                        <model-viewer src="../assets/menu_images/3d_glb/paneer_tikka.glb" alt="3D Model" auto-rotate
+                            camera-controls ar>
+                            <!-- Fallback image -->
+                            <img src="../assets/menu_images/paneer_tikka.jpg" alt="Paneer Tikka">
+                        </model-viewer>
+                        <div class="dish-details">
+                            <h3>Paneer Tikka</h3>
+                            <p class="dish-description">Marinated paneer cubes grilled to perfection, served with mint
+                                chutney.</p>
+                            <div class="dish-info">
+                                <p><strong>Ingredients:</strong> Paneer, Yogurt, Spices, Mint Chutney</p>
+                                <p><strong>Prep Time:</strong> 30 mins</p>
+                                <p><strong> Serves:</strong> 2-3 people</p>
+                                <p class="price"><strong>Price</strong> 200</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="order-btn">Place Order</button>
+                        <button class="customize-btn">Customize Your Dish</button>
+                    </div>
+                    <div class="customize-section" id="customize-paneer-tikka">
+                        <h2>Customize Your Delight</h2>
+                        <div class="customize-options">
+                            <div class="option">
+                                <label>Spice Level:</label>
+                                <select>
+                                    <option>Mild</option>
+                                    <option>Medium</option>
+                                    <option>Spicy</option>
+                                    <option>Extra Spicy</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <label>Add Extra:</label>
+                                <input type="checkbox" id="extraPaneer"> Extra Paneer
+                                <input type="checkbox" id="extraChutney"> Extra Mint Chutney
+                            </div>
+                            <div class="option">
+                                <label>Remove:</label>
+                                <input type="checkbox" id="noChutney"> No Mint Chutney
+                            </div>
+                            <div class="option">
+                                <label>Special Notes:</label>
+                                <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                            </div>
+                        </div>
+                        <button class="save-customization">Save & Order</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Dal Makhani Modal -->
+    <div class="modal" id="modal-dal-makhani">
+        <div class="modal-content">
+            <span class="close-btn">×</span>
+            <h1 class="modal-title">You Made a Delicious Choice!</h1>
+            <div class="modal-dish">
+                <model-viewer src="../assets/menu_images/3d_glb/dal_makhani.glb" alt="3D Model" auto-rotate
+                    camera-controls ar>
+                    <!-- Fallback image -->
+                    <img src="../assets/menu_images/dal_makhani.jpg" alt="Dal Makhani">
+                </model-viewer>
+                <div class="dish-details">
+                    <h3>Dal Makhani</h3>
+                    <p class="dish-description">Creamy black lentils cooked with butter and spices, a rich and hearty
+                        dish.</p>
+                    <div class="dish-info">
+                        <p><strong>Ingredients:</strong> Black Lentils, Butter, Cream, Spices</p>
+                        <p><strong>Prep Time:</strong> 45 mins</p>
+                        <p><strong> Serves:</strong> 2-3 people</p>
+                        <p class="price"><strong>Price</strong> 220</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="order-btn">Place Order</button>
+                <button class="customize-btn">Customize Your Dish</button>
+            </div>
+            <div class="customize-section" id="customize-dal-makhani">
+                <h2>Customize Your Delight</h2>
+                <div class="customize-options">
+                    <div class="option">
+                        <label>Spice Level:</label>
+                        <select>
+                            <option>Mild</option>
+                            <option>Medium</option>
+                            <option>Spicy</option>
+                            <option>Extra Spicy</option>
+                        </select>
+                    </div>
+                    <div class="option">
+                        <label>Add Extra:</label>
+                        <input type="checkbox" id="extraButter"> Extra Butter
+                        <input type="checkbox" id="extraCream"> Extra Cream
+                    </div>
+                    <div class="option">
+                        <label>Remove:</label>
+                        <input type="checkbox" id="noCream"> No Cream
+                    </div>
+                    <div class="option">
+                        <label>Special Notes:</label>
+                        <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                    </div>
+                </div>
+                <button class="save-customization">Save & Order</button>
+            </div>
+        </div>
+    </div>
+    <!-- Tandoori Chicken Modal -->
+    <div class="modal" id="modal-tandoori-chicken">
+        <div class="modal-content">
+            <span class="close-btn">×</span>
+            <h1 class="modal-title">You Made a Delicious Choice!</h1>
+            <div class="modal-dish">
+                <model-viewer src="../assets/menu_images/3d_glb/tandoori_chicken.glb" alt="3D Model" auto-rotate
+                    camera-controls ar>
+                    <!-- Fallback image -->
+                    <img src="../assets/menu_images/tandoori_chicken.jpg" alt="Tandoori Chicken">
+                </model-viewer>
+                <div class="dish-details">
+                    <h3>Tandoori Chicken</h3>
+                    <p class="dish-description">Chicken marinated in yogurt and spices, cooked in a tandoor for a smoky
+                        flavor.</p>
+                    <div class="dish-info">
+                        <p><strong>Ingredients:</strong> Chicken, Yogurt, Spices</p>
+                        <p><strong>Prep Time:</strong> 50 mins</p>
+                        <p><strong> Serves:</strong> 2-3 people</p>
+                        <p class="price"><strong>Price</strong> 250</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-buttons">
+                <button class="order-btn">Place Order</button>
+                <button class="customize-btn">Customize Your Dish</button>
+            </div>
+            <div class="customize-section" id="customize-tandoori-chicken">
+                <h2>Customize Your Delight</h2>
+                <div class="customize-options">
+                    <div class="option">
+                        <label>Spice Level:</label>
+                        <select>
+                            <option>Mild</option>
+                            <option>Medium</option>
+                            <option>Spicy</option>
+                            <option>Extra Spicy</option>
+                        </select>
+                    </div>
+                    <div class="option">
+                        <label>Add Extra:</label>
+                        <input type="checkbox" id="extraChicken"> Extra Chicken
+                        <input type="checkbox" id="extraYogurt"> Extra Yogurt
+                    </div>
+                    <div class="option">
+                        <label>Remove:</label>
+                        <input type="checkbox" id="noYogurt"> No Yogurt
+                    </div>
+                    <div class="option">
+                        <label>Special Notes:</label>
+                        <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                    </div>
+                </div>
+                <button class="save-customization">Save & Order</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for Carousel Functionality
+        let currentIndex = 0;
+        const carouselTrack = document.querySelector('.carousel-track');
+        const cards = document.querySelectorAll('.card');
+        const cardWidth = cards[0].offsetWidth + 20; // Card width + margin
+        const dots = document.querySelectorAll('.dot');
+
+        function shiftDishes(direction) {
+            currentIndex = (currentIndex + direction + cards.length) % cards.length;
+            const offset = -currentIndex * (cardWidth + 20); // Account for gap
+            carouselTrack.style.transform = `translateX(${offset}px)`;
+            updateDots();
+        }
+
+        function goToDish(index) {
+            currentIndex = index;
+            const offset = -currentIndex * (cardWidth + 20); // Account for gap
+            carouselTrack.style.transform = `translateX(${offset}px)`;
+            updateDots();
+        }
+
+        function updateDots() {
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+        }
+
+        // Cart Functionality
+        let cart = [];
+        const menuContainer = document.querySelector('.menu-container');
+
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            cartSidebar.classList.toggle('active');
+            updateCartDisplay();
+        }
+
+        function addToCart(item) {
+            const existingItem = cart.find(cartItem =>
+                cartItem.name === item.name &&
+                JSON.stringify(cartItem.customizations) === JSON.stringify(item.customizations)
+            );
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <div>
+                        <h4>${item.name}</h4>
+                        ${item.customizations ? `<small>${formatCustomizations(item.customizations)}</small>` : ''}
+                        <p>₹${item.price * item.quantity}</p>
+                    </div>
+                    <div class="cart-item-controls">
+                        <button onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                        <span>${item.quantity}</span>
+                        <button onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+                        <button onclick="removeItem(${index})">×</button>
+                    </div>
+                </div>
+            `).join('');
+
+            cartTotal.textContent = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+
+        function formatCustomizations(customizations) {
+            return Object.entries(customizations).map(([key, value]) => {
+                if (typeof value === 'boolean') return key.replace('extra', 'Extra ').replace('no', 'No ');
+                return `${key}: ${value}`;
+            }).join(', ');
+        }
+
+        function updateQuantity(index, newQuantity) {
+            if (newQuantity < 1) return removeItem(index);
+            cart[index].quantity = newQuantity;
+            updateCartDisplay();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function showOrderConfirmation() {
+            const confirmation = document.createElement('div');
+            confirmation.innerHTML = `
+                <div class="order-confirmation">
+                    <h2 style="color: #18fc03;">Order Placed Successfully!</h2>
+                    <p>Your delicious dish is on its way!</p>
+                </div>
+            `;
+            confirmation.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 2000;
+                animation: fadeIn 0.5s ease-in-out;
+            `;
+            confirmation.querySelector('.order-confirmation').style.cssText = `
+                background: #fff;
+                padding: 30px;
+                border-radius: 20px;
+                text-align: center;
+                font-family: 'Poppins', sans-serif;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                transform: scale(0);
+                animation: popIn 0.5s ease forwards;
+            `;
+            document.body.appendChild(confirmation);
+            setTimeout(() => {
+                confirmation.style.animation = 'fadeOut 0.5s ease-in-out';
+                setTimeout(() => confirmation.remove(), 500);
+            }, 2000);
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            // Format cart details for email
+            const orderDetails = cart.map(item =>
+                `- ${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}
+         ${item.customizations ? 'Customizations: ' + formatCustomizations(item.customizations) : ''}`
+            ).join('\n');
+
+            const emailData = {
+                to_email: "sujalbagde27@gmail.com",
+                subject: "New Order Received!",
+                message: `One new order needs to be ready!\n\nOrder Details:\n${orderDetails}\n\nTotal: ₹${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}`
+            };
+
+            // Send email using EmailJS
+            emailjs.send('service_it3bbw2', 'template_1eu97dw', emailData)
+                .then(() => {
+                    showOrderConfirmation();
+                    cart = [];
+                    updateCartDisplay();
+                    document.getElementById('cartSidebar').classList.remove('active');
+                }, (error) => {
+                    alert('Failed to send order. Please try again.');
+                    console.error('Email failed:', error);
+                });
+        }
+
+        function handleOrderButtonClick(modal) {
+            const dishName = modal.querySelector('h3').textContent;
+            const priceText = modal.querySelector('.price').textContent;
+            const price = parseInt(priceText.replace(/\D/g, ''));
+
+            const customizations = {};
+            const customizeSection = modal.querySelector('.customize-section');
+
+            if (customizeSection.style.display === 'block') {
+                // Handle select inputs
+                customizeSection.querySelectorAll('select').forEach(select => {
+                    const label = select.previousElementSibling.textContent.trim().replace(':', '');
+                    customizations[label] = select.value;
+                });
+
+                // Handle checkboxes
+                customizeSection.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const label = checkbox.parentElement.textContent.trim().replace(':', '');
+                        customizations[checkbox.id] = true;
+                    }
+                });
+
+                // Handle textarea
+                const textarea = customizeSection.querySelector('textarea');
+                if (textarea.value.trim()) {
+                    customizations.notes = textarea.value.trim();
+                }
+            }
+
+            addToCart({
+                name: dishName,
+                price: price,
+                customizations: Object.keys(customizations).length > 0 ? customizations : null
+            });
+
+            modal.style.display = 'none';
+            modal.querySelector('.customize-section').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update add button event listeners
+            document.querySelectorAll('.add-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const modalId = e.target.dataset.modal;
+                    const modal = document.getElementById(modalId);
+
+                    if (!modal) {
+                        console.error(`Modal with id ${modalId} not found!`);
+                        return;
+                    }
+
+                    // Reset customization section
+                    modal.querySelector('.customize-section').style.display = 'none';
+                    modal.querySelector('.customize-btn').style.display = 'block';
+                    modal.querySelector('.order-btn').style.display = 'block';
+
+                    // Add fresh event listeners for modal buttons
+                    modal.querySelector('.close-btn').onclick = () => {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    };
+
+                    modal.querySelector('.customize-btn').onclick = () => {
+                        modal.querySelector('.customize-section').style.display = 'block';
+                        modal.querySelector('.customize-btn').style.display = 'none';
+                        modal.querySelector('.order-btn').style.display = 'none';
+                    };
+
+                    modal.querySelector('.order-btn').onclick = () => handleOrderButtonClick(modal);
+                    modal.querySelector('.save-customization').onclick = () => handleOrderButtonClick(modal);
+
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+        });
+
+        // Additional animation keyframes
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    `;
+        document.head.appendChild(styleSheet);
+    </script>
+</body>
+<script src="/venders/script.js"></script>
+
+</html>

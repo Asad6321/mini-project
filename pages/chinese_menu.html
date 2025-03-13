@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Indian Menu</title>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/venders/styles.css">
+    
+        <!-- 3D model viewer -->
+        <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    
+        <!-- EmailJS SDK -->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    </head>
+
+<body>
+    <div class="cart-container">
+        <div class="cart-icon" onclick="toggleCart()">
+            🛒
+            <div class="cart-count" id="cartCount">0</div>
+        </div>
+    </div>
+
+    <div class="cart-sidebar" id="cartSidebar">
+        <h2>Your Cart</h2>
+        <div id="cartItems"></div>
+        <p>Total: ₹<span id="cartTotal">0</span></p>
+        <button onclick="checkout()" style="background: #4CAF50; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">Checkout</button>
+    </div>
+
+    <div class="indian-menu-container">
+        <div class="menu-container">
+            <!-- Navigation -->
+
+
+            <!-- Hero Section -->
+            <section class="hero-section">
+                <div>
+                    <h1>Chinese Favorit</h1>
+                    <p>
+                        Our Chinese dishes are crafted with fresh ingredients, bold flavors, and authentic spices, bringing you the perfect balance of taste and texture. From sizzling stir-fries to rich, savory sauces, every bite is a delight!
+                    </p>
+                </div>
+                <div class="hero-image">
+                    <img src="https://i.pinimg.com/736x/b1/fa/20/b1fa200bc4c18e098d72d7187f1eb857.jpg" alt="Main Dish">
+                </div>
+            </section>
+
+            <!-- Menu Cards -->
+            <section class="menu-cards">
+                <div class="card">
+                    <!-- <img src="https://i.pinimg.com/736x/04/f3/3d/04f33d6a13a410e6034d1d528297cfe8.jpg" alt="Mie Geprek"> -->
+                     <model-viewer src="../assets/menu_images/3d_glb/kung_poa.glb" 
+                    alt="3D Model" 
+                    auto-rotate 
+                    camera-controls 
+                    ar> 
+                    </model-viewer>
+                    <h3>Kung Pao Chicken</h3>
+                    <p>A spicy and savory stir-fried dish made with chicken, peanuts, vegetables, and Sichuan peppers.</p>
+                    <button class="add-btn" data-modal="modal-kung">+</button>
+                </div>
+                <div class="card">
+                    <!-- <img src="https://i.pinimg.com/736x/65/2f/35/652f356dde051f62410aa3c345dd8686.jpg" alt="Mie Ayam"> -->
+                    <model-viewer src="../assets/menu_images/3d_glb/dim_sum.glb" 
+                    alt="3D Model" 
+                    auto-rotate 
+                    camera-controls 
+                    ar> 
+                    </model-viewer>
+                    <h3>Dim Sum </h3>
+                    <p>A variety of bite-sized dumplings, buns, and rolls, steamed or fried, served with flavorful dipping sauces.</p>
+                    <button class="add-btn" data-modal="modal-dim">+</button>
+                </div>
+                <div class="card">
+                    <!-- <img src="https://i.pinimg.com/736x/50/10/70/501070b8ad052e84ffbc51dda93b80b2.jpg" alt="Mie Goreng"> -->
+                    <model-viewer src="../assets/menu_images/3d_glb/fried_rice.glb" 
+                    alt="3D Model" 
+                    auto-rotate 
+                    camera-controls 
+                    ar> 
+                    </model-viewer>
+                    <h3>Fried Rice </h3>
+                    <p>A classic dish made with wok-tossed rice, fresh vegetables, eggs, and soy sauce, offering a perfect blend of flavors.</p>
+                    <button class="add-btn" data-modal="modal-fried">+</button>
+                </div>
+            </section>
+
+            <!-- Special Dish Section -->
+            <section class="special-dish">
+                <div class="special-image">
+                    <!-- <img src="https://i.pinimg.com/736x/33/7d/4d/337d4dcc736df4959bbcacb8f92bbd7a.jpg" alt="Gado-gado"> -->
+                    <model-viewer src="../assets/menu_images/3d_glb/chinese_dish.glb" 
+                    alt="3D Model" 
+                    auto-rotate 
+                    camera-controls 
+                    ar> 
+                    </model-viewer>
+                </div>
+                <div class="special-text">
+                    <h2>Our Chinese Dish Secret<h2>
+                    <p>
+                        At our restaurant, we create authentic Chinese dishes using fresh ingredients, aromatic spices, and traditional cooking techniques. From sizzling stir-fries to rich, flavorful sauces, every dish is crafted to bring you the perfect balance of taste, texture, and aroma in every bite.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Kung Pao Chicken model starts -->
+            <div class="modal" id="modal-kung">
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h1 class="modal-title">You Made a Delicious Choice!</h1>
+                    <div class="modal-dish">
+                        <model-viewer src="../assets/menu_images/3d_glb/kung_poa.glb" 
+                    alt="3D Model" 
+                    auto-rotate 
+                    camera-controls 
+                    ar> 
+                    </model-viewer>
+                        <div class="dish-details">
+                            <h3>Kung Pao Chicken</h3>
+                            <p class="dish-description">A spicy stir-fry with chicken, peanuts, bell peppers, and a flavorful sauce.</p>
+                            <div class="dish-info">
+                                <p><strong>Ingredients:</strong> Chicken, Peanuts, Bell Peppers, Soy Sauce, Sichuan Peppercorns, Dried Chilies
+                                </p>
+                                <p><strong>Prep Time:</strong> 25 mins</p>
+                                <p><strong> Serves:</strong> 2-3 people</p>
+                                <p class="price"><strong>Price</strong> 300</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="order-btn">Place Order</button>
+                        <button class="customize-btn">Customize Your Dish</button>
+                    </div>
+                    <div class="customize-section" id="customize-murgh">
+                        <h2>Customize Your Delight</h2>
+                        <div class="customize-options">
+                            <div class="option">
+                                <label>Spice Level:</label>
+                                <select>
+                                    <option>Mild</option>
+                                    <option>Medium</option>
+                                    <option>Spicy</option>
+                                    <option>Extra Spicy</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <label>Add Extra:</label>
+                                <input type="checkbox" id="extraChicken"> Extra Chicken
+                                <input type="checkbox" id="extraNaan"> Extra Peanuts
+                                <input type="checkbox" id="extraRice"> Steamed Rice
+                            </div>
+                            <div class="option">
+                                <label>Remove:</label>
+                                <input type="checkbox" id="noTomato"> No Peanuts
+                                <input type="checkbox" id="noCream"> No Bell Peppers
+                            </div>
+                            <div class="option">
+                                <label>Special Notes:</label>
+                                <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                            </div>
+                        </div>
+                        <button class="save-customization">Save & Order</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Kung Pao Chicken model ends -->
+
+            <!-- Dim Sum model starts -->
+            <div class="modal" id="modal-dim">
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h1 class="modal-title">You Made a Delicious Choice!</h1>
+                    <div class="modal-dish">
+                        <model-viewer src="../assets/menu_images/3d_glb/dim_sum.glb" 
+                    alt="3D Model" 
+                    auto-rotate 
+                    camera-controls 
+                    ar> 
+                    </model-viewer>
+                        <div class="dish-details">
+                            <h3>Dim Sum</h3>
+                            <p class="dish-description">Delicate bite-sized dumplings with flavorful fillings, served with dipping sauces.</p>
+                            <div class="dish-info">
+                                <p><strong>Ingredients:</strong> Flour, Chicken/Pork/Shrimp, Vegetables, Soy Sauce, Ginger, Garlic
+                                </p>
+                                <p><strong>Prep Time:</strong> 20 mins</p>
+                                <p><strong> Serves:</strong> 2-3 people</p>
+                                <p class="price"><strong>Price</strong>250</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="order-btn">Place Order</button>
+                        <button class="customize-btn">Customize Your Dish</button>
+                    </div>
+                    <div class="customize-section" id="customize-murgh">
+                        <h2>Customize Your Delight</h2>
+                        <div class="customize-options">
+                            <div class="option">
+                                <label>Spice Level:</label>
+                                <select>
+                                    <option>Mild</option>
+                                    <option>Medium</option>
+                                    <option>Spicy</option>
+                                    <option>Extra Spicy</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <label>Add Extra:</label>
+                                <input type="checkbox" id="extraChicken"> Extra Filling
+                                <input type="checkbox" id="extraNaan"> Dipping Sauce
+                            </div>
+                            <div class="option">
+                                <label>Remove:</label>
+                                <input type="checkbox" id="noTomato"> No Soy Sauce
+                                <input type="checkbox" id="noCream"> No Garlic
+                            </div>
+                            <div class="option">
+                                <label>Special Notes:</label>
+                                <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                            </div>
+                        </div>
+                        <button class="save-customization">Save & Order</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Dim Sum model ends -->
+
+            <!-- Fried Rice model starts -->
+            <div class="modal" id="modal-fried">
+                <div class="modal-content">
+                    <span class="close-btn">×</span>
+                    <h1 class="modal-title">You Made a Delicious Choice!</h1>
+                    <div class="modal-dish">
+                        <model-viewer src="../assets/menu_images/3d_glb/fried_rice.glb" 
+                    alt="3D Model" 
+                    auto-rotate 
+                    camera-controls 
+                    ar> 
+                    </model-viewer>
+                        <div class="dish-details">
+                            <h3>Fried Rice</h3>
+                            <p class="dish-description">A flavorful stir-fried dish with rice, vegetables, and savory seasonings.</p>
+                            <div class="dish-info">
+                                <p><strong>Ingredients:</strong>  Rice, Vegetables, Soy Sauce, Eggs, Garlic, Spring Onions
+                                </p>
+                                <p><strong>Prep Time:</strong> 20 mins</p>
+                                <p><strong> Serves:</strong> 2-3 people</p>
+                                <p class="price"><strong>Price</strong>400</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="order-btn">Place Order</button>
+                        <button class="customize-btn">Customize Your Dish</button>
+                    </div>
+                    <div class="customize-section" id="customize-murgh">
+                        <h2>Customize Your Delight</h2>
+                        <div class="customize-options">
+                            <div class="option">
+                                <label>Spice Level:</label>
+                                <select>
+                                    <option>Mild</option>
+                                    <option>Medium</option>
+                                    <option>Spicy</option>
+                                    <option>Extra Spicy</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <label>Add Extra:</label>
+                                <input type="checkbox" id="extraChicken"> Extra Vegetables
+                                <input type="checkbox" id="extraNaan"> Extra Egg
+                                <input type="checkbox" id="extraRice"> Chicken
+                            </div>
+                            <div class="option">
+                                <label>Remove:</label>
+                                <input type="checkbox" id="noTomato"> No Soy Sauce
+                                <input type="checkbox" id="noCream"> No Garlic
+                            </div>
+                            <div class="option">
+                                <label>Special Notes:</label>
+                                <textarea placeholder="E.g., Less oil, gluten-free..."></textarea>
+                            </div>
+                        </div>
+                        <button class="save-customization">Save & Order</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Fried Rice model ends -->
+        </div>
+
+    </div>
+
+    <script>
+        (function () {
+            emailjs.init('uqI2tRF7CahmHk8q1'); // Replace with your EmailJS public key
+        })();
+
+        // Cart functionality
+        let cart = [];
+        const menuContainer = document.querySelector('.menu-container');
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            cartSidebar.classList.toggle('active');
+            updateCartDisplay();
+        }
+
+        function addToCart(item) {
+            const existingItem = cart.find(cartItem =>
+                cartItem.name === item.name &&
+                JSON.stringify(cartItem.customizations) === JSON.stringify(item.customizations)
+            );
+
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                cart.push({ ...item, quantity: 1 });
+            }
+            updateCartDisplay();
+        }
+
+        function updateCartDisplay() {
+            const cartCount = document.getElementById('cartCount');
+            const cartItems = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+
+            cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+            cartItems.innerHTML = cart.map((item, index) => `
+        <div class="cart-item">
+            <div>
+                <h4>${item.name}</h4>
+                ${item.customizations ? `<small>${formatCustomizations(item.customizations)}</small>` : ''}
+                <p>₹${item.price * item.quantity}</p>
+            </div>
+            <div class="cart-item-controls">
+                <button onclick="updateQuantity(${index}, ${item.quantity - 1})">-</button>
+                <span>${item.quantity}</span>
+                <button onclick="updateQuantity(${index}, ${item.quantity + 1})">+</button>
+                <button onclick="removeItem(${index})">×</button>
+            </div>
+        </div>
+    `).join('');
+
+            cartTotal.textContent = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        }
+
+        function formatCustomizations(customizations) {
+            return Object.entries(customizations).map(([key, value]) => {
+                if (typeof value === 'boolean') return key.replace('extra', 'Extra ').replace('no', 'No ');
+                return `${key}: ${value}`;
+            }).join(', ');
+        }
+
+        function updateQuantity(index, newQuantity) {
+            if (newQuantity < 1) return removeItem(index);
+            cart[index].quantity = newQuantity;
+            updateCartDisplay();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartDisplay();
+        }
+
+        function showOrderConfirmation() {
+            const confirmation = document.createElement('div');
+            confirmation.innerHTML = `
+                <div class="order-confirmation">
+                    <h2 style="color: #18fc03;">Order Placed Successfully!</h2>
+                    <p>Your delicious dish is on its way!</p>
+                </div>
+            `;
+            confirmation.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 2000;
+                animation: fadeIn 0.5s ease-in-out;
+            `;
+            confirmation.querySelector('.order-confirmation').style.cssText = `
+                background: #fff;
+                padding: 30px;
+                border-radius: 20px;
+                text-align: center;
+                font-family: 'Poppins', sans-serif;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                transform: scale(0);
+                animation: popIn 0.5s ease forwards;
+            `;
+            document.body.appendChild(confirmation);
+            setTimeout(() => {
+                confirmation.style.animation = 'fadeOut 0.5s ease-in-out';
+                setTimeout(() => confirmation.remove(), 500);
+            }, 2000);
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+
+            // Format cart details for email
+            const orderDetails = cart.map(item =>
+                `- ${item.name} (Qty: ${item.quantity}) - ₹${item.price * item.quantity}
+         ${item.customizations ? 'Customizations: ' + formatCustomizations(item.customizations) : ''}`
+            ).join('\n');
+
+            const emailData = {
+                to_email: "sujalbagde27@gmail.com",
+                subject: "New Order Received!",
+                message: `One new order needs to be ready!\n\nOrder Details:\n${orderDetails}\n\nTotal: ₹${cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)}`
+            };
+
+            // Send email using EmailJS
+            emailjs.send('service_it3bbw2', 'template_1eu97dw', emailData)
+                .then(() => {
+                    showOrderConfirmation();
+                    cart = [];
+                    updateCartDisplay();
+                    document.getElementById('cartSidebar').classList.remove('active');
+                }, (error) => {
+                    alert('Failed to send order. Please try again.');
+                    console.error('Email failed:', error);
+                });
+        }
+
+        function handleOrderButtonClick(modal) {
+            const dishName = modal.querySelector('h3').textContent;
+            const priceText = modal.querySelector('.price').textContent;
+            const price = parseInt(priceText.replace(/\D/g, ''));
+
+            const customizations = {};
+            const customizeSection = modal.querySelector('.customize-section');
+
+            if (customizeSection.style.display === 'block') {
+                // Handle select inputs
+                customizeSection.querySelectorAll('select').forEach(select => {
+                    const label = select.previousElementSibling.textContent.trim().replace(':', '');
+                    customizations[label] = select.value;
+                });
+
+                // Handle checkboxes
+                customizeSection.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    if (checkbox.checked) {
+                        const label = checkbox.parentElement.textContent.trim().replace(':', '');
+                        customizations[checkbox.id] = true;
+                    }
+                });
+
+                // Handle textarea
+                const textarea = customizeSection.querySelector('textarea');
+                if (textarea.value.trim()) {
+                    customizations.notes = textarea.value.trim();
+                }
+            }
+
+            addToCart({
+                name: dishName,
+                price: price,
+                customizations: Object.keys(customizations).length > 0 ? customizations : null
+            });
+
+            modal.style.display = 'none';
+            modal.querySelector('.customize-section').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Existing DOMContentLoaded code...
+
+            // Update add button event listeners
+            document.querySelectorAll('.add-btn').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const modalId = e.target.dataset.modal;
+                    const modal = document.getElementById(modalId);
+
+                    // Reset customization section
+                    modal.querySelector('.customize-section').style.display = 'none';
+                    modal.querySelector('.customize-btn').style.display = 'block';
+                    modal.querySelector('.order-btn').style.display = 'block';
+
+                    // Add fresh event listeners for modal buttons
+                    modal.querySelector('.close-btn').onclick = () => {
+                        modal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    };
+
+                    modal.querySelector('.customize-btn').onclick = () => {
+                        modal.querySelector('.customize-section').style.display = 'block';
+                        modal.querySelector('.customize-btn').style.display = 'none';
+                        modal.querySelector('.order-btn').style.display = 'none';
+                    };
+
+                    modal.querySelector('.order-btn').onclick = () => handleOrderButtonClick(modal);
+                    modal.querySelector('.save-customization').onclick = () => handleOrderButtonClick(modal);
+
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            // Order confirmation animation
+
+
+            // Existing parallax and hover effects
+            window.addEventListener('scroll', () => {
+                const cards = menuContainer.querySelectorAll('.card');
+                cards.forEach(card => {
+                    const cardPosition = card.getBoundingClientRect().top;
+                    const screenPosition = window.innerHeight / 1.3;
+                    if (cardPosition < screenPosition) {
+                        card.style.transform = 'rotateY(0deg) translateZ(20px)';
+                    }
+                });
+            });
+
+            const images = menuContainer.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('mousemove', (e) => {
+                    const rect = img.getBoundingClientRect();
+                    const centerX = rect.left + rect.width / 2;
+                    const centerY = rect.top + rect.height / 2;
+                    const mouseX = e.clientX - centerX;
+                    const mouseY = e.clientY - centerY;
+                    const rotateX = (mouseY / 20) * -1;
+                    const rotateY = (mouseX / 20);
+                    img.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+                });
+                img.addEventListener('mouseleave', () => {
+                    img.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)';
+                });
+            });
+        });
+
+        // Additional animation keyframes
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = `
+        @keyframes popIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    `;
+        document.head.appendChild(styleSheet);
+    </script>
+        
+    
+</body>
+<script src="/venders/script.js"></script>
+</html>

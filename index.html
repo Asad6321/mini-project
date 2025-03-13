@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Login</title>
+
+    <link rel="stylesheet" href="venders/styles.css">
+</head>
+<body>
+    
+    <div id="threejs-container"></div>
+    
+    <div class="container">
+        <form class="portal">
+            <h1>Let's make Your Dish Ready</h1>
+            
+            <div class="input-grid">
+                <div class="input-box">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email Address" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-phone"></i>
+                    <input type="tel" placeholder="Phone Number" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-id-card"></i>
+                    <input type="number" placeholder="Age" min="18" required>
+                </div>
+                <div class="input-box">
+                    <i class="fas fa-globe"></i>
+                    <input type="text" placeholder="Country" required>
+                </div>
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="portal-btn">ENTER PORTAL</button>
+                <button type="button" class="portal-btn" onclick="redirectToMenu()" 
+                        style="background: transparent; border: 2px solid var(--primary);">
+                    SKIP TOUR
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="venders/script.js"></script>
+</body>
+</html>

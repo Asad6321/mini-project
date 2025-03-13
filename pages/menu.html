@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Menu</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Loading Spinner */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s;
+        }
+
+        .spinner {
+            width: 80px;
+            height: 80px;
+            border: 5px solid #c5a47e;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+                url('https://i.pinimg.com/736x/50/48/0f/50480f4c3ff5fccce993ce468c478165.jpg');
+            background-size: cover;
+            min-height: 100vh;
+            padding: 40px 20px;
+            font-family: 'Roboto', sans-serif;
+            color: #fff;
+            opacity: 0;
+            animation: fadeIn 1s 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            transform: translateY(20px);
+            animation: slideUp 0.8s 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            perspective: 1000px;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 15px rgba(197, 164, 126, 0.5);
+            transform: rotateX(20deg);
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes titleFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotateX(20deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotateX(20deg);
+            }
+        }
+
+        .subtitle {
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-weight: 500;
+            font-size: 1.2rem;
+            color: #c5a47e;
+            text-shadow: 0 0 10px rgba(197, 164, 126, 0.3);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            gap: 25px;
+            opacity: 0;
+            transform: translateX(-50px);
+            animation: itemEntry 0.6s forwards;
+        }
+
+        @keyframes itemEntry {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .menu-item:nth-child(even) {
+            transform: translateX(50px);
+        }
+
+        .dish-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #c5a47e;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .dish-image:hover {
+            transform: translateZ(20px) rotateX(10deg) rotateY(10deg);
+            box-shadow: 0 20px 40px rgba(197, 164, 126, 0.4);
+        }
+
+        .item-content {
+            flex: 1;
+            padding: 20px;
+            border-radius: 15px;
+            transform-style: preserve-3d;
+            transition: transform 0.4s;
+        }
+
+        .item-content:hover {
+            transform: translateZ(10px);
+        }
+
+        .item-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            color: #c5a47e;
+            text-shadow: 0 0 10px rgba(197, 164, 126, 0.3);
+        }
+
+        .item-description {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: #ddd;
+            max-width: 400px;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, transparent, #c5a47e, transparent);
+            margin: 30px 0;
+            opacity: 0;
+            animation: lineExpand 0.8s 0.3s forwards;
+        }
+
+        @keyframes lineExpand {
+            from {
+                width: 0%;
+            }
+
+            to {
+                width: 100%;
+                opacity: 1;
+            }
+        }
+
+        .delivery-info {
+            text-align: left;
+            margin-top: 50px;
+            font-size: 1.1rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: deliveryEntry 0.6s 0.8s forwards;
+        }
+
+        @keyframes deliveryEntry {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .phone {
+            color: #c5a47e;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: letter-spacing 0.3s;
+        }
+
+        .phone:hover {
+            letter-spacing: 2px;
+        }
+
+        .website {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 10px;
+            transition: all 0.3s;
+        }
+
+        .website::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: #c5a47e;
+            transition: width 0.3s;
+        }
+
+        .website:hover::before {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <h1 class="main-title">3Delicious</h1>
+            <div class="subtitle">FOOD MENU</div>
+        </header>
+
+        <div class="menu">
+            <div class="menu-item" style="animation-delay: 0.2s">
+                <a href="indian_menu.html">
+                    <img src="/assets/menu_images/indian.jpg" alt="Pad Thai" class="dish-image">
+                </a>
+                <div class="item-content">
+                    <h3 class="item-title">INDIAN MENU</h3>
+                    <p class="item-description">Flavors of India, Served with Love!</p>
+                    <p class="item-description">Swad ka rang, masalon ka sang,
+                        Har bite mein mile, desi umang!</p>
+                </div>
+            </div>
+
+            <hr style="animation-delay: 0.4s">
+
+            <div class="menu-item" style="animation-delay: 0.6s">
+                <div class="item-content">
+                    <h3 class="item-title">CHINESE MENU </h3>
+                    <p class="item-description">Taste the Magic of Chinese Flavors!</p>
+                    <p class="item-description">Noodles ho ya rice, har bite hai nice! 🍜🥢
+                    </p>
+                </div>
+                <a href="chinese_menu.html">
+                    <img src="/assets/menu_images/chinese.jpg" alt="Stir-fried Flat Noodles" class="dish-image">
+                </a>
+            </div>
+
+            <hr style="animation-delay: 0.8s">
+
+            <div class="menu-item" style="animation-delay: 1s">
+                <a href="french_menu.html">
+                    <img src="/assets/menu_images/french.jpg" alt="Boat Noodles Soup" class="dish-image">
+                </a>
+
+                <div class="item-content">
+                    <h3 class="item-title">FRENCH MENU</h3>
+                    <p class="item-description">Savor the Elegance of French Cuisine!</p>
+                    <p class="item-description">Savor the art, embrace the flair, French cuisine beyond compare!</p>
+                </div>
+            </div>
+            <hr style="animation-delay: 0.4s">
+            <div class="menu-item" style="animation-delay: 0.6s">
+                <div class="item-content">
+                    <h3 class="item-title">SOUTH INDIAN MENU</h3>
+                    <p class="item-description">"Savor the Authentic Taste of South Indian Delights!"</p>
+                    <p class="item-description">Crispy dosa, chutney ka sang, har bite mein mile masti ka rang
+                    </p>
+                </div>
+                <a href="south_menu.html">
+                    <img src="/assets/menu_images/south indian.png" alt="Stir-fried Flat Noodles" class="dish-image">
+                </a>
+            </div>
+            <hr style="animation-delay: 0.4s">
+            <div class="menu-item" style="animation-delay: 1s">
+                <a href="punjabi_menu.html">
+                    <img src="/assets/menu_images/punjabi.jpeg" alt="Punjabi Cuisine" class="dish-image">
+                </a>
+            
+                <div class="item-content">
+                    <h3 class="item-title">PUNJABI MENU</h3>
+                    <p class="item-description">"Experience the Rich and Robust Flavors of Punjab!"</p>
+                    <p class="item-description">Makki di roti, sarson da saag, har bite vich swad da raag</p>
+                </div>
+            </div>
+            
+            <hr style="animation-delay: 0.4s">
+            <div class="menu-item" style="animation-delay: 0.6s">
+                <div class="item-content">
+                    <h3 class="item-title">SINDHI MENU</h3>
+                    <p class="item-description">"Indulge in the Rich and Flavorful Essence of Sindhi Cuisine!"</p>
+                    <p class="item-description">Dal Pakwan, Seyal Mani, swaad jo anand har bite vich pani</p>
+                </div>
+                <a href="sindhi_menu.html">
+                    <img src="/assets/menu_images/sindhi.jpg" alt="Sindhi Cuisine" class="dish-image">
+                </a>
+            </div>
+            
+        </div>
+        
+
+        <!-- <div class="delivery-info">
+            <p>Delivery order</p>
+            <p class="phone">7757014668</p>
+            <a href="#" class="website">www.3Delicious.com</a>
+        </div> -->
+    </div>
+
+    <script>
+        // Hide loader when page loads
+        window.onload = function () {
+            document.querySelector('.loader').style.opacity = '0';
+            setTimeout(() => {
+                document.querySelector('.loader').style.display = 'none';
+            }, 500);
+
+            // Animate menu items sequentially
+            document.querySelectorAll('.menu-item, hr').forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.2 + 0.4}s`;
+            });
+        };
+    </script>
+</body>
+
+</html>
